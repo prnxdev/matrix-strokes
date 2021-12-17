@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix</title>
+</head>
+<body>
+  
+  <script>
+    function getRandomLetter() {
+      const alphabet = "必西弟衣艾付记爱耻挨宅开饿罗饿母恩呕披酷耳艾斯大波留埃克斯歪诶比西迪伊艾弗吉艾尺艾杰开艾勒艾马艾娜哦屁吉吾艾儿艾丝豆贝尔维艾克斯吾艾"
+
+      return alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+
+    function startSingleRainStroke() {
+      const startingPoint = {
+        x: Math.floor(Math.random() * window.innerWidth),
+        y: 0,
+      }
+
+      let interval = null;
+
+      const matrixStroke = document.createElement('div');
+      matrixStroke.classList.add('matrix-stroke');
+      matrixStroke.style.top = `${startingPoint.y}px`;
+      matrixStroke.style.left = `${startingPoint.x}px`;
+      document.body.appendChild(matrixStroke);
+
+      const container = document.createElement('div');
+      container.classList.add('container');
+      matrixStroke.appendChild(container);
+
+      const carret = document.createElement('div');
+      carret.classList.add('carret');
+      matrixStroke.appendChild(carret);
+
+      function appendNewLetter() {
+        const el = document.createElement('div');
+        el.classList.add('matrix-letter');
+        el.classList.add('hidden');
+        el.innerText = getRandomLetter();
+        container.appendChild(el);
+
+        if (matrixStroke.offsetHeight > window.innerHeight) {
+          setTimeout(() => {
+            matrixStroke.remove();
+
+            if (interval) {
+              clearInterval(interval);
+            }
+          }, 2000);
+        }
+      }
+      
+      interval = setInterval(() => {
+        appendNewLetter();
+      }, 100);
+    }
+
+    startSingleRainStroke();
+
+    setInterval(() => {
+      startSingleRainStroke();
+    }, 100);
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .matrix-stroke {
+      position: absolute;
+    }
+
+    .matrix-stroke .carret {
+      height: 25px;
+      width: 100%;
+      background-color: rgb(168, 255, 168);
+      box-shadow: 0 0 10px lime;
+      margin-top: 5px;
+    }
+
+    .matrix-letter {
+      color: rgb(168, 255, 168);
+      text-shadow: 0 0 10px lime;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      animation: fadeOut 2s;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1;}
+      100% { opacity: 0; }
+    }
+  </style>
+</body>
+</html>
+
